@@ -1,0 +1,46 @@
+<!-- myapp/templates/myapp/partials/data_table.html -->
+<table class="min-w-full bg-white">
+    <thead>
+        <tr>
+            <th class="px-4 py-2">
+                <a hx-get="?sort=id&order={{ 'asc' if sort != 'ingredientName' or order == 'desc' else 'desc' }}" class="hover:underline">Ingredient Name</a>
+            </th>
+            <th class="px-4 py-2">
+                <a hx-get="?sort=name&order={{ 'asc' if sort != 'productName' or order == 'desc' else 'desc' }}" class="hover:underline">Product Name</a>
+            </th>
+            <th class="px-4 py-2">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in data %}
+        <tr class="border-t">
+            <td class="px-4 py-2">{{ item.ingredientName }}</td>
+            <td class="px-4 py-2">{{ item.pcode }}</td>
+            <td class="px-4 py-2">{{ item.casNumber }}</td>
+            <td class="px-4 py-2">{{ item.epaRegNumber }}</td>
+            <td class="px-4 py-2">{{ item.productName }}</td>
+            <td class="px-4 py-2">{{ item.productNameStatus }}</td>
+            <td class="px-4 py-2">{{ item.registrationStatus }}</td>
+            <td class="px-4 py-2">{{ item.productStatusDate }}</td>
+            <td class="px-4 py-2">{{ item.alternateBrandName }}</td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="mt-4">
+    <nav class="flex justify-between">
+        {% if data.has_previous %}
+        <a hx-get="?page=1&sort={{ sort }}&order={{ order }}" class="text-blue-500 hover:underline">First</a>
+        <a hx-get="?page={{ data.previous_page_number }}&sort={{ sort }}&order={{ order }}" class="text-blue-500 hover:underline">Previous</a>
+        {% endif %}
+
+        <span>Page {{ data.number }} of {{ data.paginator.num_pages }}</span>
+
+        {% if data.has_next %}
+        <a hx-get="?page={{ data.next_page_number }}&sort={{ sort }}&order={{ order }}" class="text-blue-500 hover:underline">Next</a>
+        <a hx-get="?page={{ data.paginator.num_pages }}&sort={{ sort }}&order={{ order }}" class="text-blue-500 hover:underline">Last</a>
+        {% endif %}
+    </nav>
+</div>

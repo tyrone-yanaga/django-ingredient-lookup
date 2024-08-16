@@ -1,0 +1,27 @@
+<!-- myapp/templates/myapp/fetch_data.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fetch Data</title>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://unpkg.com/htmx.org@1.8.4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.x/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="container mx-auto">
+        <h1 class="text-2xl font-bold mb-6">Fetch Data from API</h1>
+        <form method="post" hx-post="{% url 'fetch_data' %}" hx-target="#data-table" class="mb-6">
+            {% csrf_token %}
+            <div class="flex items-center space-x-4">
+                {{ form.query|as_crispy_field }}
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
+            </div>
+        </form>
+
+        <div id="data-table">
+            {% include 'myapp/partials/data_table.html' %}
+        </div>
+    </div>
+</body>
+</html>

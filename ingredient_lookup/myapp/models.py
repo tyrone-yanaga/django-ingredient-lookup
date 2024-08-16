@@ -10,7 +10,7 @@ class Item(models.Model):
     epaRegNumber = models.CharField(max_length=MAX_NUM_LENGTH)
     productName = models.CharField(max_length=MAX_NAME_LENGTH)
     productNameStatus = models.BooleanField()
-    redistrationStatus = models.BooleanField()
+    registrationStatus = models.BooleanField()
     productStatusDate = models.DateField()
     alternateBrandName = models.CharField(max_length=MAX_NAME_LENGTH)
 
