@@ -1,7 +1,7 @@
 import requests
 from django.shortcuts import render
 from django.core.paginator import Paginator
-from .forms import UserInputForm
+from . import UserInputForm
 
 def fetch_data(request):
     data = None
@@ -16,4 +16,22 @@ def fetch_data(request):
     else:
         form = UserInputForm()
 
-    return render(request, 'myapp/fetch_data.html', {'form': form, 'data': data})
+    #filtering/sorting of data
+    sort_by = request.GET.get('sort', 'id')
+    order = request.GET.get('order', 'asc')
+    data = sorted(data, key=lambda x: x.get(sort_by), reverse=order == 'desc')
+
+    paginated_data = Paginator(data, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginated_data.get_page(page_number)
+
+    context = {
+        'form': form,
+        'data': data,
+        'sort': sort_by,
+        'order': order,
+    }
+
+    if request.htmx:
+        return render(request, 'myapp/partials/data_table.html', context)
+    return render(request, 'myapp/fetch_data.html', context)
